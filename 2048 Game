@@ -1,0 +1,183 @@
+from utilities import generate_piece, print_board
+import copy
+
+
+DEV_MODE = False
+
+
+def main(game_board: [[int, ], ]) -> [[int, ], ]:
+    """
+    2048 main function, runs a game of 2048 in the console.
+
+    Uses the following keys:
+    w - shift up
+    a - shift left
+    s - shift down
+    d - shift right
+    q - ends the game and returns control of the console
+    :param game_board: a 4x4 2D list of integers representing a game of 2048
+    :return: returns the ending game board
+    """
+    # Initialize board's first cell
+    random_piece = generate_piece(game_board)
+    
+    game_board[random_piece.get('row')][random_piece.get('column')] = random_piece.get('value')
+
+    random_piece = generate_piece(game_board)
+    
+    game_board[random_piece.get('row')][random_piece.get('column')] = random_piece.get('value')
+    print_board(game_board)
+            
+    # TODO: generate a random piece and location using the generate_piece function
+    # TODO: place the piece at the specified location
+
+    # Initialize game state trackers
+
+    # Game Loop
+    
+    row = range(len(game_board))
+    col = range(len(game_board))
+    user_input= input()
+    while user_input != "q":
+                game_copy = copy.deepcopy(game_board)
+                if user_input == "w":
+                    for index in range(0,2):
+                        for index2 in col:
+                            if game_board[index + 1][index2] == 0:
+                                game_board[index + 1 ][index2] = game_board[index + 2][index2]
+                                game_board[index + 2][index2] = 0
+                    for index in range(0,3):
+                        for index2 in col:
+                            if game_board[index][index2] == game_board[index + 1][index2]:
+                                game_board[index][index2] = (game_board[index][index2] * 2)
+                                game_board[index + 1][index2] = 0
+                    for index in range(0,2):
+                        for index2 in col:
+                            if game_board[index + 1][index2] == 0:
+                                game_board[index + 1 ][index2] = game_board[index + 2][index2]
+                                game_board[index + 2][index2] = 0
+                    for index in range(-1,2):
+                        for index2 in col:
+                            if game_board[index + 1][index2] == 0:
+                                game_board[index + 1 ][index2] = game_board[index + 2][index2]
+                                game_board[index + 2][index2] = 0
+                if user_input == "a":
+                    for index in row:
+                        for index2 in col:
+                            if game_board[index][index2] == 0:
+                                game_board[index].remove(0)
+                                while len(game_board[index]) <= 3:
+                                    game_board[index].append(0)
+                    for index in row: 
+                        for index2 in range(0, 3):
+                                if game_board[index][index2] == game_board[index][index2 + 1]:
+                                    game_board[index][index2] = (game_board[index][index2] * 2)
+                                    game_board[index].pop(index2 + 1) 
+                                    while len(game_board[index]) <= 3:
+                                        game_board[index].append(0)                         
+                if user_input == "s":
+                    for index in range(-5,-2):
+                        for index2 in col:
+                                if game_board[index + 2][index2] == 0:
+                                    game_board[index + 2][index2] = game_board[index + 1][index2]
+                                    game_board[index + 1][index2] = 0
+                    for index in range(-4,-2):
+                        for index2 in col:
+                            if game_board[index + 2][index2] == 0:
+                                    game_board[index + 2][index2] = game_board[index + 1][index2]
+                                    game_board[index + 1][index2] = 0
+                    for index in range(-5,-2):
+                        for index2 in col:
+                                if game_board[index + 2][index2] == 0:
+                                    game_board[index + 2][index2] = game_board[index + 1][index2]
+                                    game_board[index + 1][index2] = 0
+                    for index in range(-4,-0):
+                        for index2 in col:
+                            if game_board[index + 3][index2] == game_board[index + 2][index2]:
+                                game_board[index + 3][index2] = (game_board[index + 3][index2] * 2)
+                                game_board[index + 2][index2] = 0
+                    for index in range(-5,-2):
+                        for index2 in col:
+                                if game_board[index + 2][index2] == 0:
+                                    game_board[index + 2][index2] = game_board[index + 1][index2]
+                                    game_board[index + 1][index2] = 0
+                if user_input == "d":
+                    for index in row:
+                        for index2 in col:
+                            if game_board[index][index2] == 0:
+                                game_board[index].pop(index2)
+                                while len(game_board[index]) <= 3:
+                                    game_board[index].insert(0, 0)
+                    for index in row:  
+                        for index2 in range(-4, 0):
+                            if game_board[index][index2 + 3] == game_board[index][index2 + 2]:
+                                game_board[index][index2 + 3] = (game_board[index][index2 +3] * 2)
+                                game_board[index].pop(index2 + 2) 
+                                while len(game_board[index]) <= 3: 
+                                    game_board[index].insert(0, 0)
+                for num in game_board:
+                    for values in num:
+                        if values == 2048:
+                            print("You Won!")
+                            return False
+                if game_copy == game_board:
+                    print("choose again")
+                else:
+                    random_piece = generate_piece(game_board)
+    
+                    game_board[random_piece.get('row')][random_piece.get('column')] = random_piece.get('value')
+                    print_board(game_board)
+                
+                user_input = input()
+                
+    if user_input == "q":
+            print("Goodbye")
+    
+        
+        
+
+
+        
+        # TODO: Reset user input variable
+
+        # TODO: Take computer's turn
+        # place a random piece on the board
+        # check to see if the game is over using the game_over function
+
+        # TODO: Show updated board using the print_board function
+
+        # TODO: Take user's turn
+        # Take input until the user's move is a valid key
+        # if the user quits the game, print Goodbye and stop the Game Loop
+        # Execute the user's move
+
+        # Check if the user wins
+ 
+    return game_board
+    
+
+def game_over(game_board: [[int, ], ]) -> bool:
+    """
+    Query the provided board's game state.
+
+    :param game_board: a 4x4 2D list of integers representing a game of 2048
+    :return: Boolean indicating if the game is over (True) or not (False)
+    """
+    # TODO: Loop over the board and determine if the game is over
+    counter_space = 0
+    for row in game_board:
+        for col in row:
+            if col > 0:
+                counter_space = counter_space + 1
+                if counter_space == 16:
+                    return True
+                    
+    
+
+
+if __name__ == "__main__":
+    main([[0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0]])
+
