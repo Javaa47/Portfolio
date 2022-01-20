@@ -1,0 +1,471 @@
+from collections import namedtuple
+
+Vaulter = namedtuple('Vaulter', 'raw_h1 num_h1 raw_spd num_spd raw_under num_under raw_conv_i num_conv_i')
+
+
+def week_1():
+    H1 = input()
+    Spd = input()
+    Under = input()
+    ConvI = input()
+    print("Please enter the pole vaulter's superior hand height(H1):")
+    print("Please enter the pole vaulter's maximum take-off speed(Spd): ")
+    print("Please enter the pole vaulter's the maximal reduction of the pole chord (Under): ")
+    print("Please enter the pole vaulter's calculated inversion index(ConvI, Conv + eye not Conv + el): ")
+    """
+    Prompts a user for a pole vaulter's (H1) superior hand height,
+                                        (Spd) maximum take-off speed
+                                        (Under) orthogonal projection of the superior hand on the floor relative
+                                                to the foot
+                                        (ConvI) Conversion Index calculated by deltaP / Spd
+
+    Arguments:
+    None
+
+    Return values:
+    H1 -- a string containing the superior hand height as a percintile
+    Spd -- a string containing the maximum take-off speed as a percintile
+    Under -- a string containing the orthogonal projection of the superior hand
+             on the floor relative to the foot as a percintile
+    ConvI -- a string containing the Conversion Index as a percintile
+    """
+    
+    return H1, Spd, Under, ConvI
+
+
+def week_2(h1, spd, under, conv_i):
+    v_h1 = "".join(filter(str.isdigit, h1))
+    v_spd = "".join(filter(str.isdigit, spd))
+    v_under = "".join(filter(str.isdigit, under))
+    v_conv_i = "".join(filter(str.isdigit, conv_i))
+    num_h1 = int(v_h1) / 100
+    num_spd = int(v_spd) / 100
+    num_under = int(v_under) / 100
+    num_conv_i = int(v_conv_i) / 100
+
+    """
+    Receives h1, spd, under, conv_i.  Converts from strings to floating point percentiles assuming the
+    formats given in the instructions.  Returns the floating point values
+    values.
+
+    Arguments:
+    h1 -- a string containing the superior hand height as a percintile
+    spd -- a string containing the maximum take-off speed as a percintile
+    under -- a string containing the orthogonal projection of the superior hand
+             on the floor relative to the foot as a percintile
+    conv_i -- a string containing the Conversion Index as a percintile
+
+    Return values:
+    num_h1 -- a float containing the numerical percentile of the vaulter's H1
+    num_spd -- a float containing the numerical percentile of the vaulter's Spd
+    num_under -- a float containing the numerical percentile of the vaulter's Under
+    num_conv_i -- a float containing the numerical percentile of the vaulter's ConvI
+    """
+    return num_h1, num_spd, num_under, num_conv_i
+
+
+
+def week_3(raw_h1, num_h1, raw_spd, num_spd, raw_under, num_under, raw_conv_i, num_conv_i):
+    vaulter_list = []
+    value_list = [raw_h1, num_h1]
+    value_list2 = [raw_spd, num_spd]
+    value_list3 = [raw_under, num_under] 
+    value_list4 = [raw_conv_i, num_conv_i]
+    vaulter_list.append(value_list)
+    vaulter_list.append(value_list2)
+    vaulter_list.append(value_list3)
+    vaulter_list.append(value_list4)
+    
+    vaulter_dict1 = {}
+    vaulter_dict1["raw_h1"] = raw_h1
+    vaulter_dict1["num_h1"] = num_h1
+    vaulter_dict1["raw_spd"] = raw_spd
+    vaulter_dict1["num_spd"] = num_spd
+    vaulter_dict1["raw_under"] = raw_under
+    vaulter_dict1["num_under"] = num_under
+    vaulter_dict1["raw_conv_i"] = raw_conv_i
+    vaulter_dict1["num_conv_i"] = num_conv_i
+    vaulter_dict = vaulter_dict1
+    
+    vaulter_tuple = namedtuple('Vaulter', ['raw_h1', 'num_h1', 'raw_spd', 'num_spd', 'raw_under', 'num_under', 'raw_conv_i', 'num_conv_i'])
+    vaulter_namedtuple = Vaulter(raw_h1, num_h1, raw_spd, num_spd, raw_under, num_under, raw_conv_i, num_conv_i)
+    
+    
+    """
+    Using the input values given, build and return a list, dictionary, and named tuple all representing your vaulter.
+
+    Arguments
+    raw_h1 -- The raw string input representing h1
+    num_h1 -- The numeric string input representing h1
+    raw_spd -- The raw string input representing spd
+    num_spd -- The numeric string input representing spd
+    raw_under -- The raw string input representing under
+    num_under -- The numeric string input representing under
+    raw_conv_i -- The raw string input representing conv_i
+    num_conv_i -- The numeric string input representing conv_i
+
+    Return Values:
+    vaulter_list -- A list of lists containing one string and one float each
+                    e.g. [['1st percentile', 0.01],
+                          ['2nd percentile', 0.02],
+                          ['3rd percentile', 0.03],
+                          ['4th percentile', 0.04]]
+    vaulter_dict -- A dictionary where keys are the parameter names, and values the values e.g. {'num_h1': 0.01,
+    vaulter_namedtuple --  A Vaulter named tuple using the function parameters e.g. Vaulter('1st percentile', 0.01...
+
+    return the three data structures vaulter_list, vaulter_dict, vaulter_namedtuple
+    """
+    
+    return vaulter_list, vaulter_dict, vaulter_namedtuple
+
+
+def week_4(vaulter):
+    spd_weight = 0.744
+    h1_weight = 0.0497
+    convI_weight = 0.0429
+    under_weight = 0.0244
+    if type(vaulter) is list:
+        spd = vaulter[1][1]
+        h1 = vaulter[0][1]
+        under = vaulter[2][1]
+        conv_i = vaulter[3][1]
+        bioMax = spd * spd_weight + h1 * h1_weight + conv_i * convI_weight + under * under_weight
+        bio_max = float(bioMax)
+        
+    elif type(vaulter) is dict:
+        spd = vaulter['num_spd']
+        h1 = vaulter['num_h1']
+        conv_i = vaulter['num_conv_i']
+        under = vaulter['num_under']
+        bioMax = spd * spd_weight + h1 * h1_weight + conv_i * convI_weight + under * under_weight
+        bio_max = float(bioMax)
+
+    else: 
+        spd = vaulter.num_spd
+        h1 = vaulter.num_h1
+        conv_i = vaulter.num_conv_i
+        under = vaulter.num_under
+        
+        bioMax = spd * spd_weight + h1 * h1_weight + conv_i * convI_weight + under * under_weight
+        bio_max = float(bioMax)
+    
+    """
+    Receives a vaulter's information then calculates and returns their bioMax rating
+
+    Parameter weighting table for reference:
+    --------------------------
+        Parameter:  Weight
+        Spd         0.744
+        H1          0.0497
+        ConvI       0.0429
+        Under       0.0244
+    --------------------------
+
+    Arguments:
+    vaulter -- a list, dictionary, or namedtuple that contains a pole vaulter's information
+
+    Return values:
+    bio_max -- a float containing the calculated biomechanical ranking
+    """
+    
+    return bio_max
+
+
+def week_5(applicants):
+    scores = []
+    for num in range(applicants):
+        listweek1 = list(week_1())
+        scores.append(listweek1)
+    Values = scores
+        
+        
+    """
+    Given a number of applicants, prompt the user until once for each applicant and adds the raw_h1, raw_spd, 
+    raw_under, and raw_conv_i as a value list to a scores list
+
+    Arguments:
+        applicants -- an int representing the number of applicants
+
+    Return Values:
+        scores -- a list of lists in the format [[raw_h1_1, raw_spd_1, raw_under_1, raw_conv_i_1],
+                                                 [raw_h1_2, raw_spd_2, raw_under_2, raw_conv_i_2],
+                                                 ...,
+                                                 [raw_h1_n, raw_spd_n, raw_under_n, raw_conv_i_n]]
+    """
+
+    return Values
+
+
+def week_6(scores):
+    vaulters = []
+    for num in range(len(scores)):
+        week2values = week_2(scores[num][0], scores[num][1], scores[num][2], scores[num][3])
+        week2list = list(week2values)
+        week3values = week_3(scores[num][0], week2list[0], scores[num][1], week2list[1], scores[num][2], week2list[2], scores[num][3], week2list[3])
+        week3list = list(week3values)
+        vaulters.append(week3list)
+        
+    Value = vaulters
+    """
+    Builds a list of vaulter structured types given a list of
+    raw_h1, raw_spd, raw_under, and raw_conv_i in the format [[raw_h1_1, raw_spd_1, raw_under_1, and raw_conv_i_1],
+                                                              [raw_h1_2, raw_spd_2, raw_under_2, and raw_conv_i_2],
+                                                              ... ]
+
+    Arguments:
+        scores -- list of raw_h1, raw_spd, raw_under, and raw_conv_i in the format:
+                                                             [[raw_h1_1, raw_spd_1, raw_under_1, and raw_conv_i_1],
+                                                              [raw_h1_2, raw_spd_2, raw_under_2, and raw_conv_i_2],
+                                                              ... ]
+
+    Return Value:
+        vaulters -- list of vaulters in format [[vaulter1_list, vaulter1_dict, vaulter1_namedtuple], [vaulter2_list ...]
+    """
+
+    return Value 
+
+
+def week_7(vaulters, cutoff):
+    team_members = []
+    for num in range(len(vaulters)): 
+        bio = week_4(vaulters[num])
+        if bio >= cutoff:
+            team_members.append(vaulters[num])
+    
+    
+    """
+    Given a list of vaulter dictionaries,
+    calculates the bio_max scores of each vaulter and removes the vaulters who don't make the cutoff.
+
+    Arguments:
+        vaulters -- a list of vaulters, potentially of any data type
+        cutoff -- the minimum estimated bio_max needed for a vaulter to make the team
+
+    Return Values:
+        team_members -- a list of vaulter dictionaries who beat the bio_max cutoff
+    """
+    
+    return team_members
+
+
+def week_8(vaulters):
+    report = []
+    for num in range(len(vaulters)):
+        vaulter_dic = vaulters[num]
+        bioMax = vaulter_dic['num_spd'] * 0.744 + vaulter_dic['num_h1'] * 0.0497 + vaulter_dic['num_conv_i'] * 0.0429 + vaulter_dic['num_under'] * 0.0244
+        prompt = "Applicant's H1 {}, Applicant's vaulting speed: {}, Applicant's biomechanical potential score: {}".format(vaulter_dic['raw_h1'], vaulter_dic['raw_spd'], float(bioMax))
+        report.append(prompt)
+    values = report
+
+    
+    
+    """
+    Given a list of vaulter dictionaries, build a list of strings that reports their
+    raw_h1, raw_spd, and bio_max in the following format:
+    "Applicant's H1 {}, Applicant's vaulting speed: {}, Applicant's biomechanical potential score: {}"
+
+    Remember to use the RAW STRING and NOT the PERCENTILE SCORE.
+
+    Arguments:
+        vaulters -- a list of dictionaries representing vaulters
+
+    Return values:
+        report -- a list of strings in the format:
+                    "Applicant's H1 {}, Applicant's vaulting speed: {}, Applicant's biomechanical potential score: {}"
+
+    """
+    
+    return values
+
+
+def week_9(vaulter_file, cutoff):
+    
+    app_file = open(vaulter_file)
+    content = app_file.readlines()
+    file_report = []
+    for number in range(len(content)):
+        content[number] = content[number].split(",")
+    for nums in range(len(content)):
+        content[nums][-1] = content[nums][-1].strip("\n")
+    for index in range(len(content)):
+        v_h1 = "".join(filter(str.isdigit, content[index][0]))
+        v_spd = "".join(filter(str.isdigit, content[index][1]))
+        v_under = "".join(filter(str.isdigit, content[index][2]))
+        v_conv_i = "".join(filter(str.isdigit, content[index][3]))
+        num_h1 = int(v_h1) / 100
+        num_spd = int(v_spd) / 100
+        num_under = int(v_under) / 100
+        num_conv_i = int(v_conv_i) / 100
+        bioMax = num_spd * 0.744 + num_h1 * 0.0497 + num_conv_i * 0.0429 + num_under * 0.0244
+        if bioMax >= cutoff:  
+            prompt = "Applicant's H1 {}, Applicant's vaulting speed: {}, Applicant's biomechanical potential score: {}".format(content[index][0], content[index][1], bioMax)
+            file_report.append(prompt)
+    
+    values = file_report
+    
+    """
+    Creates a report list using a text file.
+
+    Arguments:
+        vaulter_file -- a file with each line in the format "raw_h1, raw_spd, raw_under, raw_conv\n"
+        cutoff -- the minimum bio_max score needed for a vaulter to make the team
+
+    Return values:
+        file_report -- a list of strings in the format:
+                       "Applicant's height {}, applicant's vaulting speed: {}, applicant's estimated bio_max: {}"
+    """
+    
+    return values
+
+
+def week_10(report):
+    nums_list = []
+    for item in report:
+        value = item.split(',')
+        biomax = value[2].strip("Applicant's biomechanical potential score: ")
+        nums_list.append(biomax)
+    sorted_scores = nums_list
+    """
+    Given a report, return a sorted list of biomax scores sorted from largest to smallest
+
+    Arguments:
+        report -- a list of strings reporting candidate statistics
+
+    Return values:
+        sorted_scores -- a sorted list of biomax scores (a one line comprehension is fine)
+    """
+
+    return sorted_scores
+
+
+if __name__ == "__main__":
+    # Here is a a suite of print statements to help you test your code
+    # Three recommended examples for basic testing:
+    #     G.O.A.T: A person who should always either match or rank higher than everone else
+    #        H1 = 100th percentile, Spd = 100th percentile, Under = 100th percentile, ConvI = 100th percentile
+    #     Well Trained: A person who should beat most people who aren't the G.O.A.T
+    #        H1 = 100th percentile, Spd = 100th percentile, Under = 50th percentile, ConvI = 50th percentile
+    #     Poorly Trained: An talented competitor who was trained in all the wrong things
+    #        H1 = 50th percentile, Spd = 50th percentile, Under = 100th percentile, ConvI = 100th percentile
+    #     Normie: If a regular person who never pole-vaulted before tried out for the olympics
+    #        H1 = 1st percentile, Spd = 2nd percentile, Under = 3rd percentile, ConvI = 4th percentile
+
+    # Test of Week 1
+    try:
+        H1, Spd, Under, ConvI = week_1()
+        print(f"{'Week 1':*^30}")
+        print("Raw H1 value:", H1)
+        print("Raw Spd value:", Spd)
+        print("Raw Under value:", Under)
+        print("Raw ConvI value:", ConvI)
+        print()
+    except:
+        print("It looks like something blew up in week_1.")
+        exit()
+
+    # Test of Week 2
+    try:
+        n_h1, n_spd, n_under, n_conv_i = week_2(H1, Spd, Under, ConvI)
+        print(f"{'Week 2':*^30}")
+        print("Numeric H1 value:", n_h1)
+        print("Numeric Spd value:", n_spd)
+        print("Numeric Under value:", n_under)
+        print("Numeric ConvI value:", n_conv_i)
+        print()
+    except TypeError:
+        print("It looks like something blew up in week_1 or week_2.")
+        exit()
+
+    # Test of Week 3
+    try:
+        v_list, v_dict, v_namedtuple = week_3(H1, n_h1, Spd, n_spd, Under, n_under, ConvI, n_conv_i)
+        print(f"{'Week 3':*^30}")
+        print(f"{'vaulter_list':-^30}")
+        print(v_list)
+        print(f"{'vaulter_dict':-^30}")
+        print(v_dict.items())
+        print(f"{'vaulter_named_tuple':-^30}")
+        print(v_namedtuple)
+        print()
+    except:
+        print("It looks like something blew up in week_2 or week_3.")
+        exit()
+
+    # Test of Week 4
+    try:
+        bioMax_list = week_4(v_list)
+        bioMax_dict = week_4(v_dict)
+        bioMax_namedtuple = week_4(v_namedtuple)
+        print(f"{'Week 4':*^30}")
+        print("bioMax list:", bioMax_list)
+        print("bioMax dictionary:", bioMax_dict)
+        print("bioMax namedtuple:", bioMax_namedtuple)
+        print()
+    except:
+        print("It looks like something blew up in week_2 or week_3.")
+        exit()
+
+    # Test of Week 5
+    print(f"{'Week 5':*^30}")
+    try:
+        applicant_num = int(input("Please enter the number of applicants you would like to test: \n"))
+    except EOFError:
+        print("Oops it looks like you didn't add all the inputs you need for part 5. Exiting Program.")
+        exit()
+    app_list = week_5(applicant_num)
+    for i, app in enumerate(app_list):
+        print(f"Testing week 5 applicant {i}: {app}")
+    print()
+
+    # Test of Week 6
+    print(f"{'Week 6':*^30}")
+    try:
+        sc_list = week_6(app_list)
+        for j, app in enumerate(sc_list):
+            print(f"testing week 6 number {j}: \n\tlist: {app[0]}\n\tdict: {app[1]}\n\tamedtuple: {app[2]}")
+        print()
+    except:
+        print("Opps, it looks like you didn't build a the data structure correctly in week_6")
+        exit()
+
+    # Test of Week 7
+    print(f"{'Week 7':*^30}")
+    try:
+        cutoff_test = float(input("Please enter a value to test cutoff for week 7: \n"))
+    except EOFError:
+        print("Oops it looks like you didn't add all the inputs you need for part 7. Exiting Program.")
+        exit()
+    test_team_members = week_7([sc[1] for sc in sc_list], cutoff_test)
+    print("Test week 7:", test_team_members)
+    print()
+
+    # Test of Week 8
+    print(f"{'Week 8':*^30}")
+    try:
+        test_r = week_8(test_team_members)
+        for k, mem in enumerate(test_r):
+            print(f"Test week 8 member {k}: {mem}\n")
+        print()
+    except:
+        print("Opps, it looks like you didn't build the data structure correctly in week_8")
+        exit()
+
+    print(f"{'Week 9':*^30}")
+    try:
+        cutoff_test = 0.005
+        test_f = week_9("vaulter_test_file.txt", cutoff_test)
+        print("Testing week 9:")
+        for f in test_f:
+            print('\t', f)
+        print()
+    except:
+        print("Opps, it looks like you didn't build the data structure correctly in week_9")
+        exit()
+
+    print(f"{'Week 10':*^30}")
+    try:
+        test_s = week_10(test_f)
+        print("Test week 10:", test_s)
+    except:
+        print("Opps, it looks like you didn't build the data structure correctly in week_10")
+        exit()
