@@ -1,0 +1,43 @@
+exam = []
+exam1 = []
+final_exam = []
+
+file = input()
+f = open(file)
+
+with open('report.txt', 'w') as open_f:
+    lines = f.readlines()
+    for item in lines:
+        grades = item.strip("\n").split("\t")
+        test = int(grades[2])
+        test1 = int(grades[3])
+        final = int(grades[4])
+        exam.append(test)
+        exam1.append(test1)
+        final_exam.append(final)
+
+        grade_ave = (final + test + test1) / 3
+
+        if grade_ave < 60:
+            grades.append("F\n")
+        elif grade_ave < 70:
+            grades.append("D\n")
+        elif grade_ave < 80:
+            grades.append("C\n")
+        elif grade_ave < 90:
+            grades.append("B\n")
+        else:
+            grades.append("A\n")
+
+        for i in range(len(grades) - 1):
+            open_f.write(grades[i] + '\t')
+        open_f.write(grades[i+1])
+
+    ave_score = sum(exam) / len(exam)
+    ave_score = '{:.2f}'.format(ave_score)
+    ave_score2 = sum(exam1) / len(exam1)
+    ave_score2 = '{:.2f}'.format(ave_score2)
+    ave_final = sum(final_exam) / len(final_exam)
+    ave_final = '{:.2f}'.format(ave_final)
+
+    open_f.write("\nAverages: midterm1 {}, midterm2 {}, final {}\n".format(ave_score, ave_score2, ave_final))
