@@ -1,0 +1,67 @@
+#Your code starts here
+def get_data_headers():
+    header_title = input()
+    first_column = input()
+    second_column = input()
+    print("Enter a title for the data:")
+    print("You entered:",header_title + "\n")
+    print("Enter the column 1 header:")
+    print("You entered:",first_column + "\n")
+    print("Enter the column 2 header:")
+    print("You entered:",second_column + "\n")
+    return header_title, first_column, second_column # Remove this line and replace it with real code
+
+def get_data_points():
+    data_input = input(("Enter a data point (-1 to stop input):\n"))
+    new_dict = {}
+    while data_input != "-1":
+        num_of_commas = data_input.count(",")
+        if num_of_commas == 1:
+            dict_list = list(data_input.split(", ")) 
+            dict_data = {}
+            dict_data = dict(data_input.split(", ") for x in data_input.splitlines())
+            
+            z = (dict_data[dict_list[0]])
+            y = dict_list[0]
+            try:
+              
+                z = int(z)
+                print("Data string:", y)
+                print("Data integer:",z)
+                print()
+                dict_data[dict_list[0]] = int(dict_data[dict_list[0]])
+                new_dict.update(dict_data)
+            except:
+                #print("Enter a data point (-1 to stop input):")
+                print("Error: Comma not followed by an integer.\n")
+        if num_of_commas < 1:
+            #print("Enter a data point (-1 to stop input):")
+            print("Error: No comma in string.\n")
+        if num_of_commas > 1:
+            #print("Enter a data point (-1 to stop input):")
+            print("Error: Too many commas in input.\n")
+        
+        data_input = input("Enter a data point (-1 to stop input):\n")
+    return new_dict# Remove this line and replace it with real code
+
+def print_data(headers, data):
+    print("{:>33}".format(headers[0]))
+    print("{:<20}""|""{:>23}".format(headers[1], headers[2]))
+    print("-" * 44)
+    for key, value in data.items():
+        print("{:<20}""|""{:>23}".format(key, value))
+    print()
+    
+def print_histogram(data):
+    for key, value in data.items():
+        print("{:>20} {}".format(key, "*" * int(value)))
+
+    
+   
+if __name__ == '__main__':
+    # Below 4 lines are required for basic test cases. Do not delete them.
+    headers = get_data_headers()
+    data = get_data_points()
+    print_data(headers, data)
+    print_histogram(data)
+    
